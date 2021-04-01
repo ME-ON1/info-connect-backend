@@ -20,7 +20,7 @@ exports.handlePostData = async (req,res,next)=> {
 		const newuser = await SubsModel.create(userData) ;
 		return res.status(200).json({status : "OK" , newuser })
 	}catch(err) {
-		conosle.log(err)
+		console.log(err)
 		throw next(err)
 	}
 }
