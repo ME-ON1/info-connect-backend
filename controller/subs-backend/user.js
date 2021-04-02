@@ -9,13 +9,12 @@ exports.handlePostData = async (req,res,next)=> {
 		name ,
 		batch
 	}
-	console.log(userData)
 
 	try {
 		let user = await SubsModel.find({email : email}) ;
 
 		if(user.length !== 0) {
-			return res.status(401).json("Already a user !! ")
+			return res.status(500).json("Already a user !! ")
 		}
 		const newuser = await SubsModel.create(userData) ;
 		return res.status(200).json({status : "OK" , newuser })
