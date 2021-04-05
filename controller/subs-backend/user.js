@@ -1,5 +1,5 @@
 const SubsModel = require("../../model/subscriber")
-//const sendHelper = require("../helper/mail")
+const sendHelper = require("../../helper/mail")
 
 exports.handlePostData = async (req,res,next)=> {
 	const {email , name , batch } = req.body
@@ -24,13 +24,21 @@ exports.handlePostData = async (req,res,next)=> {
 	}
 }
 
-//exports.sendEmail = async (update)=> {
-	//let users = await SubsModel.find({}) ;
-	//console.log(users)
-	//users.forEach(async (val, index ) =>{
-		//let mailReturned = await sendHelper(val) ;
+exports.sendEmail = async (req, res, next )=> {
 
-		//console.log(mailReturned);
-	//})
-	//console.log("let's see this")
-//}
+	let users = await SubsModel.find({}) ;
+	console.log(users)
+	const promise = [] ;
+	users.map(async (val, index ) =>{
+		promise.push(sendHelper(val))
+	})
+
+	Promise.all(promise).then((res)=>{
+		console.log(promise)
+		console.log("is this happening",res )
+		//return res.json("runned")
+	})
+	.catch(err => console.log("beep bop bip ", err))
+
+	return res.json("cop")
+}
